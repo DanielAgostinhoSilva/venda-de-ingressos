@@ -10,7 +10,7 @@ public class Customer extends AggregateRoot {
     private String cpf;
     private String name;
 
-    private Customer(String id, String cpf, String name) {
+    public Customer(String id, String cpf, String name) {
         this.id = id;
         this.cpf = cpf;
         this.name = name;
