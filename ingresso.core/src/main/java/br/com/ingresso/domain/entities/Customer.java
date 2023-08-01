@@ -1,8 +1,11 @@
 package br.com.ingresso.domain.entities;
 
+import br.com.ingresso.common.domain.AggregateRoot;
+import br.com.ingresso.common.domain.Entity;
+
 import java.util.UUID;
 
-public class Customer {
+public class Customer extends AggregateRoot {
     private String id;
     private String cpf;
     private String name;
