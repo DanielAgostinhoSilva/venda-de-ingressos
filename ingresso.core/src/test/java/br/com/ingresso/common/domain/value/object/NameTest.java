@@ -9,15 +9,15 @@ public class NameTest {
 
     @Test
     public void deve_criar_um_nome_valido() {
-        Name name = new Name("John Don");
+        Name name = Name.create("John Don");
         assertNotNull(name);
         assertEquals("John Don", name.getValue());
     }
 
     @Test
     public void deve_verificar_se_os_nome_sao_iguais() {
-        Name name1 = new Name("John Don");
-        Name name2 = new Name("John Don");
+        Name name1 = Name.create("John Don");
+        Name name2 = Name.create("John Don");
 
         assertNotNull(name1);
         assertNotNull(name2);

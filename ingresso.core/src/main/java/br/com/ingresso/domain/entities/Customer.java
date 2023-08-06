@@ -2,18 +2,20 @@ package br.com.ingresso.domain.entities;
 
 import br.com.ingresso.common.domain.AggregateRoot;
 import br.com.ingresso.common.domain.Entity;
+import br.com.ingresso.common.domain.value.object.Cpf;
+import br.com.ingresso.common.domain.value.object.Name;
 
 import java.util.UUID;
 
 public class Customer extends AggregateRoot {
     private String id;
-    private String cpf;
-    private String name;
+    private Cpf cpf;
+    private Name name;
 
     public Customer(String id, String cpf, String name) {
         this.id = id;
-        this.cpf = cpf;
-        this.name = name;
+        this.cpf = Cpf.create(cpf);
+        this.name = Name.create(name);
     }
 
     public static Customer create(String cpf, String name) {
@@ -24,11 +26,11 @@ public class Customer extends AggregateRoot {
         return id;
     }
 
-    public String getCpf() {
+    public Cpf getCpf() {
         return cpf;
     }
 
-    public String getName() {
+    public Name getName() {
         return name;
     }
 
