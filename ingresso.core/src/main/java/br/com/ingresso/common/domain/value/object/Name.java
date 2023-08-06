@@ -21,4 +21,9 @@ public class Name extends ValueObject<String>{
 
         return new Name(name);
     }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

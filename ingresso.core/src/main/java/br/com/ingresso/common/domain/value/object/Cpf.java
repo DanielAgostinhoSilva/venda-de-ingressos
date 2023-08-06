@@ -8,6 +8,7 @@ public class Cpf extends ValueObject<String> {
     private static final String INVALID_CPF_DIGITS = "CPF must have at least two different digits";
     private static final String INVALID_CPF_NUMBER = "CPF is invalid";
 
+    private String cpf;
 
     private Cpf(String cpf) {
         super(cpf);
@@ -28,30 +29,6 @@ public class Cpf extends ValueObject<String> {
             throw new InvalidCpfException(INVALID_CPF_DIGITS);
         }
 
-//        var sum = 0;
-//        for (int i = 0; i < 9; i++) {
-//            sum += Integer.valueOf(cleanCPF.charAt(i)) * (10 - i);
-//        }
-//
-//        var firstDigit = 11 - (sum % 11);
-//        if (firstDigit > 9) {
-//            firstDigit = 0;
-//        }
-//
-//        sum = 0;
-//        for (int i = 0; i < 10; i++) {
-//            sum += Integer.valueOf(cleanCPF.charAt(i)) * (11 - i);
-//        }
-//        var secondDigit = 11 - (sum % 11);
-//        if (secondDigit > 9) {
-//            secondDigit = 0;
-//        }
-//
-//        if (firstDigit != Integer.valueOf(cleanCPF.charAt(9)) || secondDigit != Integer.valueOf(cleanCPF.charAt(10))) {
-//            throw new InvalidCpfException(INVALID_CPF_NUMBER);
-//        }
-
-        // Calcula o primeiro dígito verificador
         int sum = 0;
         for (int i = 0; i < 9; i++) {
             sum += (cleanCPF.charAt(i) - '0') * (10 - i);
@@ -61,7 +38,6 @@ public class Cpf extends ValueObject<String> {
             digit1 = 0;
         }
 
-        // Calcula o segundo dígito verificador
         sum = 0;
         for (int i = 0; i < 10; i++) {
             sum += (cleanCPF.charAt(i) - '0') * (11 - i);
@@ -71,7 +47,6 @@ public class Cpf extends ValueObject<String> {
             digit2 = 0;
         }
 
-        // Verifica se os dígitos verificadores são iguais aos do CPF
         if(!((digit1 == (cleanCPF.charAt(9) - '0')) && (digit2 == (cleanCPF.charAt(10) - '0')))) {
             throw new InvalidCpfException(INVALID_CPF_NUMBER);
         }
@@ -79,4 +54,8 @@ public class Cpf extends ValueObject<String> {
         return new Cpf(cleanCPF);
     }
 
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }
