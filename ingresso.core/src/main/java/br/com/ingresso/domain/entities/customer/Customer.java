@@ -1,4 +1,4 @@
-package br.com.ingresso.domain.entities;
+package br.com.ingresso.domain.entities.customer;
 
 import br.com.ingresso.common.domain.AggregateRoot;
 import br.com.ingresso.common.domain.value.object.Cpf;

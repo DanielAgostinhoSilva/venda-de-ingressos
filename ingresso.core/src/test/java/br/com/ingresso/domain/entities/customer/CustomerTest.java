@@ -1,5 +1,6 @@
-package br.com.ingresso.domain.entities;
+package br.com.ingresso.domain.entities.customer;
 
+import br.com.ingresso.domain.entities.customer.Customer;
 import org.junit.Test;
 
 import java.util.UUID;
