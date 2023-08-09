@@ -4,6 +4,8 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import static org.junit.Assert.*;
@@ -19,6 +21,7 @@ public class EventSectionTest {
         Integer totalSpot = 0;
         Integer totalSpotReserverd = 0;
         BigDecimal price = new BigDecimal(0);
+        Set<EventSpot> spots = new HashSet<>();
 
         EventSection eventSection = new EventSection(
                 eventId,
@@ -27,7 +30,8 @@ public class EventSectionTest {
                 published,
                 totalSpot,
                 totalSpotReserverd,
-                price
+                price,
+                spots
         );
 
         assertNotNull(eventSection);
@@ -38,6 +42,7 @@ public class EventSectionTest {
         assertEquals(totalSpot, eventSection.getTotalSpot());
         assertEquals(totalSpotReserverd, eventSection.getTotalSpotReserverd());
         assertEquals(price, eventSection.getPrice());
+        assertEquals(spots, eventSection.getSpots());
     }
 
     @Test
@@ -62,7 +67,8 @@ public class EventSectionTest {
                 false,
                 0,
                 0,
-               new BigDecimal(10.00)
+               new BigDecimal(10.00),
+                new HashSet<>()
         );
         assertNotEquals(eventA, eventB);
         assertEquals(eventA, eventC);

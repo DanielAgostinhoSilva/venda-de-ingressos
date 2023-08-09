@@ -3,6 +3,8 @@ package br.com.ingresso.domain.entities.event;
 import org.junit.Test;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import static org.junit.Assert.*;
@@ -19,6 +21,7 @@ public class EventTest {
         Integer totalSpot = 0;
         Integer totalSpotReserverd = 0;
         UUID partnerId = UUID.randomUUID();
+        Set<EventSection> sections = new HashSet<>();
 
         Event event = new Event(
                 eventId,
@@ -28,7 +31,8 @@ public class EventTest {
                 published,
                 totalSpot,
                 totalSpotReserverd,
-                partnerId
+                partnerId,
+                sections
         );
 
         assertNotNull(event);
@@ -40,6 +44,7 @@ public class EventTest {
         assertEquals(totalSpot, event.getTotalSpot());
         assertEquals(totalSpotReserverd, event.getTotalSpotReserverd());
         assertEquals(partnerId, event.getPartnerId().getValue());
+        assertEquals(sections, event.getSections());
     }
 
     @Test
@@ -65,7 +70,8 @@ public class EventTest {
                 false,
                 0,
                 0,
-                UUID.randomUUID()
+                UUID.randomUUID(),
+                new HashSet<>()
         );
         assertNotEquals(eventA, eventB);
         assertEquals(eventA, eventC);

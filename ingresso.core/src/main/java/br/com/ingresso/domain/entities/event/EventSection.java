@@ -4,6 +4,8 @@ import br.com.ingresso.common.domain.Entity;
 import br.com.ingresso.common.domain.value.object.Name;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 public class EventSection extends Entity {
@@ -14,6 +16,7 @@ public class EventSection extends Entity {
     private Integer totalSpot;
     private Integer totalSpotReserverd;
     private BigDecimal price;
+    private Set<EventSpot> spots;
 
     public EventSection(
             UUID id,
@@ -22,7 +25,8 @@ public class EventSection extends Entity {
             boolean published,
             Integer totalSpot,
             Integer totalSpotReserverd,
-            BigDecimal price
+            BigDecimal price,
+            Set<EventSpot> spots
     ) {
         this.id = new EventSectionId(id);
         this.name = Name.create(name);
@@ -31,6 +35,7 @@ public class EventSection extends Entity {
         this.totalSpot = totalSpot != null ? totalSpot : 0;
         this.totalSpotReserverd = totalSpotReserverd != null ? totalSpotReserverd : 0;
         this.price = price;
+        this.spots = spots != null ? spots : new HashSet<>();
     }
 
     public static EventSection create(CreateEventSectionCommand command) {
@@ -41,7 +46,8 @@ public class EventSection extends Entity {
                 false,
                 command.getTotalSpot(),
                 0,
-                command.getPrice()
+                command.getPrice(),
+                null
         );
     }
 
@@ -72,5 +78,23 @@ public class EventSection extends Entity {
 
     public BigDecimal getPrice() {
         return price;
+    }
+
+    public Set<EventSpot> getSpots() {
+        return spots;
+    }
+
+    @Override
+    public String toString() {
+        return "EventSection{" +
+                "id=" + id +
+                ", name=" + name +
+                ", description='" + description + '\'' +
+                ", published=" + published +
+                ", totalSpot=" + totalSpot +
+                ", totalSpotReserverd=" + totalSpotReserverd +
+                ", price=" + price +
+                ", spots=" + spots +
+                '}';
     }
 }

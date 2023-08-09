@@ -5,6 +5,9 @@ import br.com.ingresso.common.domain.value.object.Name;
 import br.com.ingresso.domain.entities.partner.PartnerId;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public class Event extends AggregateRoot {
@@ -16,6 +19,7 @@ public class Event extends AggregateRoot {
     private Integer totalSpot;
     private Integer totalSpotReserverd;
     private PartnerId partnerId;
+    private Set<EventSection> sections;
 
     public Event(
             UUID id,
@@ -25,7 +29,8 @@ public class Event extends AggregateRoot {
             boolean published,
             Integer totalSpot,
             Integer totalSpotReserverd,
-            UUID partnerId
+            UUID partnerId,
+            Set<EventSection> sections
     ) {
         this.id = new EventId(id);
         this.name = Name.create(name);
@@ -35,6 +40,7 @@ public class Event extends AggregateRoot {
         this.totalSpot = totalSpot != null ? totalSpot : 0;
         this.totalSpotReserverd = totalSpotReserverd != null ? totalSpotReserverd : 0;
         this.partnerId = new PartnerId(partnerId);
+        this.sections = sections != null ? sections : new HashSet<>();
     }
 
     public static Event create(CreateEventCommand command) {
@@ -46,7 +52,8 @@ public class Event extends AggregateRoot {
                 false,
                 0,
                 0,
-                command.getPartnerId()
+                command.getPartnerId(),
+                null
         );
     }
 
@@ -82,5 +89,24 @@ public class Event extends AggregateRoot {
 
     public PartnerId getPartnerId() {
         return partnerId;
+    }
+
+    public Set<EventSection> getSections() {
+        return sections;
+    }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "id=" + id +
+                ", name=" + name +
+                ", description='" + description + '\'' +
+                ", date=" + date +
+                ", published=" + published +
+                ", totalSpot=" + totalSpot +
+                ", totalSpotReserverd=" + totalSpotReserverd +
+                ", partnerId=" + partnerId +
+                ", sections=" + sections +
+                '}';
     }
 }
