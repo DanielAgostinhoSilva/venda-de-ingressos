@@ -48,21 +48,22 @@ public class EventSectionTest {
     @Test
     public void deve_criar_um_event_section_valido() {
         var command = new CreateEventSectionCommand("Event A", "Test A", 10, new BigDecimal(10.00));
-        var event = EventSection.create(command);
-        assertNotNull(event);
-        assertEquals(command.getName(), event.getName().getValue());
-        assertEquals(command.getDescription(), event.getDescription());
-        assertEquals(command.getTotalSpot(), event.getTotalSpot());
-        assertEquals(command.getPrice(), event.getPrice());
+        var eventSection = EventSection.create(command);
+        assertNotNull(eventSection);
+        assertEquals(command.getName(), eventSection.getName().getValue());
+        assertEquals(command.getDescription(), eventSection.getDescription());
+        assertEquals(command.getTotalSpot(), eventSection.getTotalSpot());
+        assertEquals(command.getPrice(), eventSection.getPrice());
+        assertEquals(10, eventSection.getSpots().size());
     }
 
     @Test
     public void deve_comparar_se_um_event_section_e_igual_ao_outro() {
-        var eventA =  EventSection.create(new CreateEventSectionCommand("Event A", "Test A", 10, new BigDecimal(10.00)));
-        var eventB =  EventSection.create(new CreateEventSectionCommand("Event B", "Test B", 10, new BigDecimal(10.00)));
-        var eventC = new EventSection(
-                eventA.getId().getValue(),
-                "Event B",
+        var eventSectionA =  EventSection.create(new CreateEventSectionCommand("Section A", "Description A", 10, new BigDecimal(10.00)));
+        var eventSectionB =  EventSection.create(new CreateEventSectionCommand("Section B", "Description B", 10, new BigDecimal(10.00)));
+        var eventSectionC = new EventSection(
+                eventSectionA.getId().getValue(),
+                "Section C",
                 null,
                 false,
                 0,
@@ -70,7 +71,7 @@ public class EventSectionTest {
                new BigDecimal(10.00),
                 new HashSet<>()
         );
-        assertNotEquals(eventA, eventB);
-        assertEquals(eventA, eventC);
+        assertNotEquals(eventSectionA, eventSectionB);
+        assertEquals(eventSectionA, eventSectionC);
     }
 }

@@ -1,7 +1,9 @@
 package br.com.ingresso.domain.entities.event;
 
+import br.com.ingresso.templates.EventTemplate;
 import org.junit.Test;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -41,7 +43,7 @@ public class EventTest {
         assertEquals(description, event.getDescription());
         assertEquals(eventDate, event.getDate().getValue());
         assertEquals(published, event.isPublished());
-        assertEquals(totalSpot, event.getTotalSpot());
+        assertEquals(totalSpot, event.getTotalSpots());
         assertEquals(totalSpotReserverd, event.getTotalSpotReserverd());
         assertEquals(partnerId, event.getPartnerId().getValue());
         assertEquals(sections, event.getSections());
@@ -75,5 +77,14 @@ public class EventTest {
         );
         assertNotEquals(eventA, eventB);
         assertEquals(eventA, eventC);
+    }
+
+    @Test
+    public void deve_incrementar_total_spot_quando_um_event_section_for_adicionado() {
+        var event = EventTemplate.valido();
+        var command = new AddSectionCommand("Section Test A", "Description Test a", 100, new BigDecimal(10.00));
+        event.addSection(command);
+        assertEquals(1, event.getSections().size());
+        assertEquals(Integer.valueOf(100), event.getTotalSpots());
     }
 }

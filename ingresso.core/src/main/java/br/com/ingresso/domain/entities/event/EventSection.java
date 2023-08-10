@@ -39,6 +39,11 @@ public class EventSection extends Entity {
     }
 
     public static EventSection create(CreateEventSectionCommand command) {
+        var spot = new HashSet<EventSpot>();
+        for (int i = 0; i < command.getTotalSpot(); i++) {
+            spot.add(EventSpot.create());
+        }
+
         return new EventSection(
                 null,
                 command.getName(),
@@ -47,7 +52,7 @@ public class EventSection extends Entity {
                 command.getTotalSpot(),
                 0,
                 command.getPrice(),
-                null
+                spot
         );
     }
 

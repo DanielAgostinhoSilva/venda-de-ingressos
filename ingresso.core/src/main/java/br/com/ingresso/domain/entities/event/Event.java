@@ -6,7 +6,6 @@ import br.com.ingresso.domain.entities.partner.PartnerId;
 
 import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -16,7 +15,7 @@ public class Event extends AggregateRoot {
     private String description;
     private EventDate date;
     private boolean published;
-    private Integer totalSpot;
+    private Integer totalSpots;
     private Integer totalSpotReserverd;
     private PartnerId partnerId;
     private Set<EventSection> sections;
@@ -27,7 +26,7 @@ public class Event extends AggregateRoot {
             String description,
             LocalDate date,
             boolean published,
-            Integer totalSpot,
+            Integer totalSpots,
             Integer totalSpotReserverd,
             UUID partnerId,
             Set<EventSection> sections
@@ -37,7 +36,7 @@ public class Event extends AggregateRoot {
         this.description = description;
         this.date = EventDate.create(date);
         this.published = published;
-        this.totalSpot = totalSpot != null ? totalSpot : 0;
+        this.totalSpots = totalSpots != null ? totalSpots : 0;
         this.totalSpotReserverd = totalSpotReserverd != null ? totalSpotReserverd : 0;
         this.partnerId = new PartnerId(partnerId);
         this.sections = sections != null ? sections : new HashSet<>();
@@ -57,6 +56,12 @@ public class Event extends AggregateRoot {
         );
     }
 
+    public void addSection(AddSectionCommand command) {
+        var createEventSectionCommand = new CreateEventSectionCommand(command.getName(), command.getDescription(), command.getTotalSpot(), command.getPrice());
+        var section = EventSection.create(createEventSectionCommand);
+        this.sections.add(section);
+        this.totalSpots += section.getTotalSpot();
+    }
 
     @Override
     public EventId getId() {
@@ -79,8 +84,8 @@ public class Event extends AggregateRoot {
         return published;
     }
 
-    public Integer getTotalSpot() {
-        return totalSpot;
+    public Integer getTotalSpots() {
+        return totalSpots;
     }
 
     public Integer getTotalSpotReserverd() {
@@ -103,7 +108,7 @@ public class Event extends AggregateRoot {
                 ", description='" + description + '\'' +
                 ", date=" + date +
                 ", published=" + published +
-                ", totalSpot=" + totalSpot +
+                ", totalSpot=" + totalSpots +
                 ", totalSpotReserverd=" + totalSpotReserverd +
                 ", partnerId=" + partnerId +
                 ", sections=" + sections +
