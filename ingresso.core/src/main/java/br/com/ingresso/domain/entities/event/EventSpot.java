@@ -28,6 +28,18 @@ public class EventSpot extends Entity {
         );
     }
 
+    public void changeLocation(String location) {
+        this.location = location;
+    }
+
+    public void publish() {
+        this.published = true;
+    }
+
+    public void unPublish() {
+        this.published = false;
+    }
+
     @Override
     public EventSpotId getId() {
         return id;

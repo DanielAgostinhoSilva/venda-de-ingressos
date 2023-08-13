@@ -63,6 +63,33 @@ public class Event extends AggregateRoot {
         this.totalSpots += section.getTotalSpot();
     }
 
+    public void changeName(String name) {
+        this.name = Name.create(name);
+    }
+
+    public void changeDescription(String description) {
+        this.description = description;
+    }
+
+    public void changeDate(LocalDate date) {
+        this.date = EventDate.create(date);
+    }
+
+    public void publishAll() {
+        this.publish();
+        this.sections.forEach(EventSection::publishAll);
+    }
+
+    public void publish() {
+        this.published = true;
+    }
+
+    public void unPublish() {
+        this.published = false;
+    }
+
+
+
     @Override
     public EventId getId() {
         return id;

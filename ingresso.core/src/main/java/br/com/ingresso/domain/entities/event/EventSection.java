@@ -2,6 +2,8 @@ package br.com.ingresso.domain.entities.event;
 
 import br.com.ingresso.common.domain.Entity;
 import br.com.ingresso.common.domain.value.object.Name;
+import br.com.ingresso.domain.exception.InvalidEventException;
+import br.com.ingresso.domain.exception.InvalidEventSectionException;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -54,6 +56,37 @@ public class EventSection extends Entity {
                 command.getPrice(),
                 spot
         );
+    }
+
+    public void changeName(String name) {
+        this.name = Name.create(name);
+    }
+
+    public void changeDescription(String description) {
+        this.description = description;
+    }
+
+    public void changePrince(BigDecimal price) {
+        if(price == null) {
+            throw new InvalidEventSectionException("Price can not be null");
+        }
+        if(price.compareTo(BigDecimal.ZERO) < 0) {
+            throw new InvalidEventSectionException(String.format("Invalid price %s", price));
+        }
+        this.price = price;
+    }
+
+    public void publishAll() {
+        this.publish();
+        this.spots.forEach(EventSpot::publish);
+    }
+
+    public void publish() {
+        this.published = true;
+    }
+
+    public void unPublish() {
+        this.published = false;
     }
 
     @Override

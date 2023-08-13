@@ -1,5 +1,8 @@
 package br.com.ingresso.domain.entities.event;
 
+import br.com.ingresso.common.domain.exception.InvalidNameException;
+import br.com.ingresso.common.domain.value.object.Name;
+import br.com.ingresso.domain.exception.InvalidEventException;
 import br.com.ingresso.templates.EventTemplate;
 import org.junit.Test;
 
@@ -58,6 +61,77 @@ public class EventTest {
         assertEquals(command.getDescription(), event.getDescription());
         assertEquals(command.getDate(), event.getDate().getValue());
         assertEquals(command.getPartnerId(), event.getPartnerId().getValue());
+    }
+
+    @Test
+    public void deve_permitir_mudar_o_nome_do_evento() {
+        Event event = EventTemplate.valido();
+        event.changeName("Event B");
+        assertEquals("Event B", event.getName().getValue());
+    }
+
+    @Test
+    public void deve_lancar_um_erro_quando_tentar_mudar_o_nome_do_evento_para_um_nome_invalido() {
+        Event event = EventTemplate.valido();
+        var invalidName = assertThrows(InvalidNameException.class, () -> event.changeName("aa"));
+        var requiredName = assertThrows(InvalidNameException.class, () -> event.changeName(null));
+        assertNotNull(invalidName);
+        assertEquals(Name.INVALID_NAME, invalidName.getMessage());
+        assertNotNull(requiredName);
+        assertEquals(Name.NAME_IS_REQUIRED, requiredName.getMessage());
+    }
+
+    @Test
+    public void deve_permitir_alterar_a_descricao_do_evento() {
+        Event event = EventTemplate.valido();
+        event.changeDescription("Event description B");
+        assertEquals("Event description B", event.getDescription());
+    }
+
+    @Test
+    public void deve_permitir_alterar_a_descricao_para_null() {
+        Event event = EventTemplate.valido();
+        event.changeDescription(null);
+        assertNull(event.getDescription());
+    }
+
+    @Test
+    public void deve_permitir_altera_a_data_do_evento() {
+        Event event = EventTemplate.valido();
+        LocalDate date = LocalDate.now();
+        event.changeDate(date);
+        assertEquals(date, event.getDate().getValue());
+    }
+
+    @Test
+    public void deve_lancar_um_erro_quando_tentar_atera_a_data_para_uma_data_invalida() {
+        Event event = EventTemplate.valido();
+        var ex = assertThrows(InvalidEventException.class, () -> event.changeDate(null));
+        assertNotNull(ex);
+        assertEquals("Event date is required", ex.getMessage());
+    }
+
+    @Test
+    public void deve_permitir_publicar_um_evento() {
+        Event event = EventTemplate.valido();
+        event.publish();
+        assertTrue(event.isPublished());
+    }
+
+    @Test
+    public void deve_permitir_despublicar_um_evento() {
+        Event event = EventTemplate.valido();
+        event.unPublish();
+        assertFalse(event.isPublished());
+    }
+
+    @Test
+    public void deve_permitir_publicar_um_evento_e_todas_as_event_section() {
+        Event event = EventTemplate.validoComEventSection();
+        event.publishAll();
+        assertTrue(event.isPublished());
+        event.getSections().forEach(section -> assertTrue(section.isPublished()));
+        event.getSections().forEach(section -> assertTrue(section.isPublished()));
     }
 
     @Test

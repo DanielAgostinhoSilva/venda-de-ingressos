@@ -3,8 +3,8 @@ package br.com.ingresso.common.domain.value.object;
 import br.com.ingresso.common.domain.exception.InvalidNameException;
 
 public class Name extends ValueObject<String>{
-    private static final String NAME_IS_REQUIRED = "Name is required";
-    private static final String INVALID_NAME = "Invalid Name";
+    public static final String NAME_IS_REQUIRED = "Name is required";
+    public static final String INVALID_NAME = "Invalid Name";
 
     private Name(String value) {
         super(value);
